@@ -1,0 +1,105 @@
+import discord
+from discord import app_commands
+from discord.ext import commands
+import requests
+import json
+import os
+import random  # Import random for random selection
+
+TENOR_API_KEY = "AIzaSyAnA807rqBm6B-4yxoE6UAFolmWsCOIKzM"
+LIMIT = 1000  # Increased limit for fetching multiple GIFs
+MARRIAGE_FILE = "e:/Programming/Discord Bot/DataBase/marriages.json"
+PROPOSAL_FILE = "e:/Programming/Discord Bot/DataBase/proposals.json"
+DISABLED_COMMANDS_FILE = "e:/Programming/Discord Bot/DataBase/disabled_commands.json"
+
+def load_disabled_commands():
+    """Load the disabled commands from the JSON file."""
+    if not os.path.exists(DISABLED_COMMANDS_FILE):
+        return {}
+    with open(DISABLED_COMMANDS_FILE, "r") as f:
+        return json.load(f)
+
+async def is_command_disabled(guild_id, command_name):
+    """Check if a command is disabled for a specific guild."""
+    disabled_commands = load_disabled_commands()
+    return str(guild_id) in disabled_commands and command_name in disabled_commands[str(guild_id)]
+
+# Custom check function to disable commands
+def check_if_disabled():
+    async def predicate(interaction: discord.Interaction) -> bool:
+        guild_id = interaction.guild.id
+        command_name = interaction.command.name
+        if await is_command_disabled(guild_id, command_name):
+            await interaction.response.send_message(f"The command `{command_name}` is disabled in this server.", ephemeral=True)
+            return False  # Prevents the slash command from executing
+        return True
+    return app_commands.check(predicate)
+
+def get_sex_gif():
+    search_term = "anime+sex"  # Change to NSFW search term
+
+    # Increase the limit to fetch multiple GIFs and allow random selection
+    response = requests.get(
+        f"https://tenor.googleapis.com/v2/search?q={search_term}&key={TENOR_API_KEY}&client_key=my_test_app&limit={LIMIT}"
+    )
+    
+    if response.status_code == 200:
+        gifs = response.json().get('results', [])
+        if gifs:
+            # Select a random GIF from the list
+            selected_gif = random.choice(gifs)
+            return selected_gif['media_formats']['gif']['url']
+    return None
+
+def load_json(file):
+    if not os.path.exists(file):
+        return {}
+    with open(file, "r") as f:
+        return json.load(f)
+
+def save_json(file, data):
+    with open(file, "w") as f:
+        json.dump(data, f, indent=4)
+
+class SexCommand(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.marriages = load_json(MARRIAGE_FILE)
+        self.proposals = load_json(PROPOSAL_FILE)
+
+    @app_commands.command(name="fuck", description="Send a NSFW GIF to someone")
+    @check_if_disabled()
+    async def sex_interaction(self, interaction: discord.Interaction, member: discord.Member):
+        user_id = str(interaction.user.id)
+        member_id = str(member.id)
+
+        # Check if the member is valid and not a bot
+        if not member or member.bot:
+            await interaction.response.send_message("You cannot interact with a bot!", ephemeral=True)
+            return
+
+        # Check if the user is trying to interact with themselves
+        if member.id == interaction.user.id:
+            await interaction.response.send_message("You can't interact with yourself! Choose someone else!", ephemeral=True)
+            return
+
+        # Get NSFW GIF
+        sex_gif = get_sex_gif()
+        embed = discord.Embed(
+            title="🍑 NSFW Interaction!",
+            description=f"{interaction.user.mention} fucks {member.mention} as hard as they can!",
+            color=discord.Color.red()
+        )
+
+        if sex_gif:
+            embed.set_image(url=sex_gif)
+
+        # Send the embed
+        try:
+            await interaction.response.send_message(embed=embed)
+        except Exception as e:
+            await interaction.response.send_message("An error occurred while sending the interaction. Please try again.", ephemeral=True)
+            print(f"Error in sex command: {e}")
+
+async def setup(bot):
+    await bot.add_cog(SexCommand(bot))

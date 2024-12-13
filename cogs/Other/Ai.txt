@@ -1,0 +1,83 @@
+import discord
+from discord.ext import commands
+from groq import Groq
+import asyncio
+import json
+import os
+
+class AITalkCog(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.client = Groq(api_key="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")
+        self.model = "llama3-8b-8192"  # Adjust the model as necessary
+        self.history_file = "user_history.json"
+        self.user_history = self.load_history()  # Load conversation history from file
+
+    def save_history(self):
+        """Save the conversation history to a JSON file."""
+        with open(self.history_file, "w") as f:
+            json.dump(self.user_history, f, indent=4)
+
+    def load_history(self):
+        """Load the conversation history from a JSON file."""
+        if os.path.exists(self.history_file):
+            with open(self.history_file, "r") as f:
+                return json.load(f)
+        return {}
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        # Ignore messages from the bot itself
+        if message.author == self.bot.user:
+            return
+
+        # Check if the bot is mentioned
+        if self.bot.user.mentioned_in(message):
+            user_id = str(message.author.id)
+            # Initialize history for the user if not present
+            if user_id not in self.user_history:
+                self.user_history[user_id] = []
+
+            # Extract the message after the mention
+            content = message.content.replace(f"<@!{self.bot.user.id}>", "").strip()
+            
+            # Debugging output
+            print(f"Received message from {message.author}: {content}")
+
+            if content:
+                # Update user history with the latest message
+                self.user_history[user_id].append({"role": "user", "content": content})
+
+                # Generate AI response asynchronously
+                response = await self.generate_response(user_id)
+
+                # Send the generated response back to the channel
+                await message.channel.send(response)
+                
+                # Add the bot's response to the history
+                self.user_history[user_id].append({"role": "assistant", "content": response})
+                
+                # Save the updated history
+                self.save_history()
+            else:
+                await message.channel.send("You mentioned me but didn't say anything else!")
+
+    async def generate_response(self, user_id):
+        loop = asyncio.get_event_loop()  # Get the event loop for asynchronous operations
+        conversation_history = self.user_history[user_id]
+        
+        # Generate response using the conversation history
+        response = await loop.run_in_executor(None, self._sync_generate_response, conversation_history)
+        return response
+
+    def _sync_generate_response(self, conversation_history):
+        # This method is synchronous and called from the executor
+        chat_completion = self.client.chat.completions.create(
+            messages=conversation_history,
+            model=self.model,
+        )
+        return chat_completion.choices[0].message.content
+
+# Setup the cog
+async def setup(bot):
+    await bot.add_cog(AITalkCog(bot))

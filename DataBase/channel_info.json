@@ -1,0 +1,198 @@
+{
+    "1290752691793952881": {
+        "name": "\u2014-IMPORTANT\u2014-",
+        "channels": [
+            {
+                "type": "text",
+                "name": "type-soul-sneaks",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 2
+            },
+            {
+                "type": "text",
+                "name": "events",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 3
+            },
+            {
+                "type": "text",
+                "name": "self-roles",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 4
+            },
+            {
+                "type": "text",
+                "name": "links",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 5
+            },
+            {
+                "type": "text",
+                "name": "giveaway",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 6
+            },
+            {
+                "type": "text",
+                "name": "logs",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 7
+            },
+            {
+                "type": "text",
+                "name": "type-soul-updates",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 8
+            },
+            {
+                "type": "text",
+                "name": "attack-on-titan-revolution-updates",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 9
+            }
+        ]
+    },
+    "1290752705517850687": {
+        "name": "\u2014-general\u2014-",
+        "channels": [
+            {
+                "type": "text",
+                "name": "\u2728general\u2728",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 10
+            },
+            {
+                "type": "text",
+                "name": "music-commands",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 11
+            },
+            {
+                "type": "text",
+                "name": "bot-commands",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 12
+            },
+            {
+                "type": "text",
+                "name": "my-waifus",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 13
+            },
+            {
+                "type": "text",
+                "name": "levels",
+                "topic": null,
+                "bitrate": null,
+                "user_limit": null,
+                "position": 14
+            },
+            {
+                "type": "text",
+                "name": "spam-ah-channel",
+                "topic": "",
+                "bitrate": null,
+                "user_limit": null,
+                "position": 15
+            }
+        ]
+    },
+    "1290752716712316958": {
+        "name": "voice channal",
+        "channels": [
+            {
+                "type": "voice",
+                "name": "games 1",
+                "topic": null,
+                "bitrate": 64000,
+                "user_limit": 0,
+                "position": 0
+            },
+            {
+                "type": "voice",
+                "name": "games 2",
+                "topic": null,
+                "bitrate": 64000,
+                "user_limit": 0,
+                "position": 1
+            },
+            {
+                "type": "voice",
+                "name": "games 3",
+                "topic": null,
+                "bitrate": 64000,
+                "user_limit": 0,
+                "position": 2
+            },
+            {
+                "type": "voice",
+                "name": "wifu",
+                "topic": null,
+                "bitrate": 64000,
+                "user_limit": 0,
+                "position": 3
+            },
+            {
+                "type": "voice",
+                "name": "owners",
+                "topic": null,
+                "bitrate": 64000,
+                "user_limit": 0,
+                "position": 4
+            }
+        ]
+    },
+    "1290752725310640140": {
+        "name": "owners",
+        "channels": [
+            {
+                "type": "voice",
+                "name": "owners vc",
+                "topic": null,
+                "bitrate": 64000,
+                "user_limit": 0,
+                "position": 5
+            }
+        ]
+    },
+    "1295151885631881226": {
+        "name": "welcome",
+        "type": "text",
+        "topic": null,
+        "bitrate": null,
+        "user_limit": null,
+        "position": 0
+    },
+    "1296853771162484737": {
+        "name": "moderator-only",
+        "type": "text",
+        "topic": null,
+        "bitrate": null,
+        "user_limit": null,
+        "position": 1
+    }
+}

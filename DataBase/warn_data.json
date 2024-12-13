@@ -1,0 +1,26 @@
+{
+    "939575462609436712": {
+        "939926292466384927": {
+            "warn_count": -1,
+            "warnings": [
+                {
+                    "reason": "im triggered by your bio",
+                    "time": "2024-10-18 13:05:34"
+                },
+                {
+                    "reason": "No reason provided",
+                    "time": "2024-12-04 17:32:29"
+                }
+            ]
+        },
+        "838828264247263282": {
+            "warn_count": 1,
+            "warnings": [
+                {
+                    "reason": "No reason provided",
+                    "time": "2024-10-18 14:52:16"
+                }
+            ]
+        }
+    }
+}
